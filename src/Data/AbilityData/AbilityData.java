@@ -8,15 +8,7 @@ public record AbilityData(
         String name,
         String shortEffect,
         String description,
-        String effect,
-        HashMap<String, AbilityPokeInfo> pokemonMap
+        String effect
 ) {
-    public int getSlot(String speciesName) {
-        return pokemonMap.get(speciesName).slot();
-    }
-
-    public boolean isHidden(String speciesName) {
-        return pokemonMap.get(speciesName).isHidden();
-    }
 }
 

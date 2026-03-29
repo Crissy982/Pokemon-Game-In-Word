@@ -3,9 +3,11 @@ package Data;
 import Entity.Ability.Ability;
 import Entity.EXPGroup;
 import Entity.Item;
+import Entity.Move.Move;
 import Entity.Type.Type;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public record SpeciesData(int id,
                           String speciesName,
@@ -21,10 +23,15 @@ public record SpeciesData(int id,
                           int[] evDefeat,
                           int baseEXP,
                           EXPGroup expGroup,
-                          ArrayList<Ability> abilityList,
-                          ArrayList<Item> itemList,
+                          List<Ability> abilityList,
+                          boolean hasHidden,
+                          Ability hiddenAbility,
+                          List<Item> itemList,
                           GenderData genderData,
                           int baseFriendness,
                           boolean canEvolve,
-                          SpeciesData evolveToData) {
+                          int evolveLevel,
+                          SpeciesData evolveToData,
+                          List<Move> moveList
+) {
 }

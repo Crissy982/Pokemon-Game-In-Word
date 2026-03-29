@@ -5,9 +5,7 @@ import Entity.Ability.Ability;
 import Entity.Move.Move;
 import Entity.Status.Status;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -19,10 +17,8 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Pokemon implements Cloneable{
-    //Global Variables
-    /**
-     * Pokemon species data of this Pokemon
-     */
+    // Global Variables
+    // Pokemon species data of this Pokemon
     public SpeciesData data;
     private String nickname;
     private int maxHP;
@@ -40,22 +36,19 @@ public class Pokemon implements Cloneable{
     private int[] ev = new int[6];
     private int[] iv = new int[6];
     private Item itemNow;
-    /**
-     * List of moves the Pokemon currently can use (max 4)
-     */
-    private ArrayList<Move> moveListNow = new ArrayList<>(4);
-    /**
-     * List of moves that are available for the Pokemon (no max or min)
-     */
-    private ArrayList<Move> moveListAvailable = new ArrayList<>();
-    /**
-     * Status now of the Pokemon
-     */
+    // List of moves the Pokemon currently can use (max 4)
+    private List<Move> moveListNow = new ArrayList<Move>(4);
+    // List of moves that are available for the Pokemon (no max or min)
+    private Set<Move> moveListAvailable = new HashSet<Move>();
+    private List<Move> moveListLearn;
+    // Status now of the Pokemon
     private Status status;
     private Ability ability;
+    private int slot;
     private Player owner;
-    private int friendness;
     // As some Pokemons may evolve based on their friendness
+    private int friendness;
+    private int lastProcessedLevel = 1;
 
     // Constants
     private static final Random random = new Random();
@@ -156,9 +149,7 @@ public class Pokemon implements Cloneable{
             copy.moveListNow = this.moveListNow.stream()
                     .map(Move::clone)
                     .collect(Collectors.toCollection(ArrayList::new));
-            copy.moveListAvailable = this.moveListAvailable.stream()
-                    .map(Move::clone)
-                    .collect(Collectors.toCollection(ArrayList::new));
+            copy.moveListAvailable = this.moveListAvailable;
             copy.status = this.status;
             copy.itemNow = this.itemNow != null ? this.itemNow.clone() : null;
             copy.ability = this.ability != null ? this.ability.clone() : null;
@@ -211,12 +202,15 @@ public class Pokemon implements Cloneable{
 
     /**
      * Generate the ability of the Pokemon instance from its speices available
-     * ability list (ALways max 3 for a Pokemon).
+     * ability list, only Nomral Abilities (ALways max 2 for a Pokemon).
+     * If players want to get instances with Hidden Ability, they need to hatch.
      *
      * @param list an array list of all available abilities of the Pokemon
      */
-    public void generateAbility(ArrayList<Ability> list) {
-        ability = list.get(random.nextInt(list.size()));
+    public void generateAbility(List<Ability> list) {
+        int slot = random.nextInt(list.size()) + 1;
+        this.slot = slot;
+        this.ability = list.get(slot - 1);
     }
 
     /**
@@ -283,7 +277,7 @@ public class Pokemon implements Cloneable{
         while (expNow >= expNeed && level < 100) {
             expNow -= expNeed;
             level++;
-            if (data.canEvolve()) {
+            if (data.canEvolve() && level == data.evolveLevel()) {
                 evolve();
             }
             setEXPNeed();
@@ -325,17 +319,17 @@ public class Pokemon implements Cloneable{
 
     // TODO: Implement evolve() method
     private void evolve() {
-        this.data = data.evolveToData();
-        int slot1 = this.ability.getAbilityData()
-                .pokemonMap()
-                .get(data.speciesName()).slot();
-        for (int i = 0; i < data.evolveToData().abilityList().size(); i++) {
-            int slot2 = this.data
-                    .evolveToData()
-                    .abilityList()
-                    .get(i)
-                    .getAbilityData()
-                    .getSlot(data.evolveToData().speciesName());
+        Data.SpeciesData evolveToData = data.evolveToData();
+        data = evolveToData;
+        // Inherit the ability with the same slot
+        if (slot != 3)
+            // Slot - 1 means to its index in a list
+            ability = evolveToData.abilityList().get(slot - 1);
+        else
+            ability = evolveToData.hiddenAbility();
+        lastProcessedLevel = 1;
+        for (;lastProcessedLevel < level + 1; lastProcessedLevel++) {
+            // TODO: Implement MoveList and LearnSet
         }
     }
     // TODO: Add public final boolean isEvolve data field to SpeciesData class
