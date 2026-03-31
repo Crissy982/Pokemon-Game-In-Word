@@ -1,6 +1,7 @@
 package Entity;
 
 import Data.SpeciesData;
+import Data.StatChange;
 import Entity.Ability.Ability;
 import Entity.Move.Move;
 import Entity.Status.Status;
@@ -49,6 +50,7 @@ public class Pokemon implements Cloneable{
     // As some Pokemons may evolve based on their friendness
     private int friendness;
     private int lastProcessedLevel = 1;
+    private Map<String, StatChange> statChanges;
 
     // Constants
     private static final Random random = new Random();
@@ -249,6 +251,15 @@ public class Pokemon implements Cloneable{
                         * level / 100 + 5) * nature.getModifier()[index]);
     }
 
+    public int getCurrentHP(){return currentHP;}
+    public int getAttack(){return attack;}
+    public int getDefense(){return defense;}
+    public int getMaxHP(){return maxHP;}
+    public int getSA(){return SA;}
+    public int getSD(){return SD;}
+    public int getLevel(){return level;}
+    public int getSpeed(){return speed;}
+    public Map<String, StatChange> getStatChanges(){return statChanges;}
     /**
      *
      */

@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record MoveData(
-        int accuracy,
+        Integer accuracy,
         DamageClass damageClass,
-        int statusChance,
+        Integer statusChance,
         String effect,
         String shortEffect,
         String flavorText,
