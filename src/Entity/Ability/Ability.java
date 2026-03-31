@@ -2,7 +2,7 @@ package Entity.Ability;
 
 import BattleEngine.Field;
 import BattleEngine.Weather;
-import Data.AbilityData.AbilityData;
+import Data.AbilityData;
 import Entity.Move.Move;
 import Entity.Pokemon;
 

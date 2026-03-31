@@ -1,4 +1,4 @@
-package DataProcess;
+package Tools.Parser;
 
 public class SpeciesParser {
     /**

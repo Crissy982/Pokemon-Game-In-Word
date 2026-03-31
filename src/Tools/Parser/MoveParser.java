@@ -1,4 +1,4 @@
-package DataProcess;
+package Tools.Parser;
 
 import Data.MoveData;
 import Data.StatChange;
@@ -13,8 +13,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MoveParser {
 

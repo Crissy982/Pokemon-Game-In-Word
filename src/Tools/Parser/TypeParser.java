@@ -1,4 +1,4 @@
-package DataProcess;
+package Tools.Parser;
 
 import Entity.Type.Type;
 import org.json.JSONArray;

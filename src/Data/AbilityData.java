@@ -1,8 +1,5 @@
-package Data.AbilityData;
+package Data;
 
-import Entity.Pokemon;
-
-import java.util.HashMap;
 public record AbilityData(
         int id,
         String name,

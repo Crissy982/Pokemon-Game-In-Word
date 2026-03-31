@@ -301,6 +301,7 @@ public class Pokemon implements Cloneable{
             return false;
     }
 
+    // TODO: Implement attack(Pokemon defender, Move move) method
     public boolean attack(Pokemon defender, Move move) {
         return false;
     }

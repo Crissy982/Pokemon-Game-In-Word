@@ -1,8 +1,8 @@
 package Entity.Type;
 
 
-import DataProcess.APILoader;
-import DataProcess.TypeParser;
+import Tools.Parser.APILoader;
+import Tools.Parser.TypeParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
