@@ -251,6 +251,7 @@ public class Pokemon implements Cloneable{
                         * level / 100 + 5) * nature.getModifier()[index]);
     }
 
+    // Getter Methods
     public int getCurrentHP(){return currentHP;}
     public int getAttack(){return attack;}
     public int getDefense(){return defense;}
@@ -260,8 +261,10 @@ public class Pokemon implements Cloneable{
     public int getLevel(){return level;}
     public int getSpeed(){return speed;}
     public Map<String, StatChange> getStatChanges(){return statChanges;}
+
     /**
-     *
+     * Calculate every Statistic and assign it to data field
+     * This happens when a pokemon levelUp or evolve()
      */
     public void setAllStats() {
         int oldMaxHP = maxHP;
@@ -274,16 +277,29 @@ public class Pokemon implements Cloneable{
         currentHP += maxHP - oldMaxHP;
     }
 
+    /**
+     * Calculate experience needed for current level and set it
+     */
     public void setEXPNeed() {
         expNeed = data.expGroup().calculateEXPNeed(level);
     }
 
+    /**
+     * Add experience to expNow to make sure the experience increase
+     * @param expGet int experience points got and needed to be added to expNow
+     */
     public void addEXP(int expGet) {
         this.expNow += expGet;
         levelUP();
     }
 
     // TODO: Implement levelUP method (call evolve() if isEvolve is true)
+
+    /**
+     * Increase level of the pokemon, if it evolve,
+     * renew its species data first, and finally, re-calculate its stats.
+     * Make sure that level will not exceed lv.100, which is maximum level;
+     */
     public void levelUP() {
         while (expNow >= expNeed && level < 100) {
             expNow -= expNeed;
@@ -303,6 +319,11 @@ public class Pokemon implements Cloneable{
         }
     }
 
+    /**
+     * Reset the nickname of pokemon (Default Name: Species Name)
+     * @param newName String new name for the pokemon
+     * @return
+     */
     public boolean rename(String newName) {
         if (newName != null && !newName.isBlank()) {
             nickname = newName;
@@ -312,12 +333,21 @@ public class Pokemon implements Cloneable{
             return false;
     }
 
-    // TODO: Implement attack(Pokemon defender, Move move) method
-    public boolean attack(Pokemon defender, Move move) {
-        return false;
+    // TODO: Implement the attack logic in battle system, because attack()
+    //  will be evoked only when a pokemon is in a battle
+    /**
+     * Attack the target pokemon with selected move
+     * @param target Pokemon the target pokemon
+     * @param move Move the selected move
+     * @return damage calculated based on game rules if attack isHit true;
+     * or effect
+     * otherwise, -1 if missed;
+     */
+    public int attack(Pokemon target, Move move) {
+        return 0;
     }
 
-    // TODO: Implement takeDamage(int damage) method
+    // TODO: Implement the takeDamage logic in battle system
     public void takeDamage(int damage) {
         currentHP -= Math.min(damage, currentHP);
         if (isFainted()) {
@@ -325,11 +355,21 @@ public class Pokemon implements Cloneable{
         }
     }
 
+    /**
+     * Check if the pokemon is fainted
+     * @return true if the pokemon is fainted; false otherwise
+     */
     public boolean isFainted() {
         return currentHP <= 0;
     }
 
     // TODO: Implement evolve() method
+
+    /**
+     * Evolve the pokemon to its evolveToSpecies, renew its SpeciesData,
+     * assign corresponding ability according to its original abilit slot,
+     * and renew its move pool
+     */
     private void evolve() {
         Data.SpeciesData evolveToData = data.evolveToData();
         data = evolveToData;

@@ -9,20 +9,21 @@ import java.util.Random;
 
 public class Battle {
     private PriorityQueue<Action> actionQueue;
-    private Pokemon pokemon1;
-    private Pokemon pokemon2;
-    private Pokemon pokemon3;
-    private Pokemon pokemon4;
-    private Pokemon pokemon5;
+    private Side playerSide;
+    private Side opponentSide;
     private Field field;
     private Weather weather;
     private static final String INDEX_HIT_RATE = "HIT_RATE";
     private static final String INDEX_EVASION_RATE = "EVASION_RATE";
     private static final Random RANDOM = new Random(561234557L);
-    public Battle(Pokemon pokemon1,
-                  Pokemon pokemon2,
+    public Battle(Side playerSide,
+                  Side opponentSide,
                   Field field,
                   Weather weather) {
+        this.playerSide = playerSide;
+        this.opponentSide = opponentSide;
+        this.field = field;
+        this.weather = weather;
         this.actionQueue = new PriorityQueue<Action>(
                 new Comparator<Action>() {
                     @Override
@@ -40,7 +41,11 @@ public class Battle {
         );
     }
 
-    public boolean isHit(Pokemon actor, Move move, Pokemon target) {
+    public int useMove(Action action) {
+        if
+    }
+
+    private boolean isHit(Pokemon actor, Move move, Pokemon target) {
         if (move.data.accuracy() == null)
             return true;
         int modifierPokemon = actor.getStatChanges().get(INDEX_HIT_RATE).modifier()

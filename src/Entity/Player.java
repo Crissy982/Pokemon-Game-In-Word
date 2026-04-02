@@ -2,6 +2,7 @@ package Entity;
 
 import BattleEngine.Battle;
 import BattleEngine.Field;
+import BattleEngine.Side;
 import BattleEngine.Weather;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public abstract class Player {
     }
 
     public void sendPokemon(Pokemon opponent, Field field, Weather weather) {
+        Side playerSide = new Side(getActivePokemon(),);
         Battle newBattle = new Battle(activePokemon, opponent, field, weather);
     }
 
