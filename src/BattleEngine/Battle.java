@@ -41,10 +41,6 @@ public class Battle {
         );
     }
 
-    public int useMove(Action action) {
-        if
-    }
-
     private boolean isHit(Pokemon actor, Move move, Pokemon target) {
         if (move.data.accuracy() == null)
             return true;
