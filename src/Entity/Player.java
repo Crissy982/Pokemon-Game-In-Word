@@ -29,8 +29,8 @@ public abstract class Player {
     }
 
     public void sendPokemon(Pokemon opponent, Field field, Weather weather) {
-        Side playerSide = new Side(getActivePokemon(),);
-        Battle newBattle = new Battle(activePokemon, opponent, field, weather);
+        /**Side playerSide = new Side(getActivePokemon(),);*/
+        /**Battle newBattle = new Battle(activePokemon, opponent, field, weather);**/
     }
 
     public Pokemon getActivePokemon() {
@@ -39,4 +39,5 @@ public abstract class Player {
 
     public abstract void addPokemon(Pokemon pokemon);
 
+    public void useItem(Item item, Pokemon pokemon) {}
 }

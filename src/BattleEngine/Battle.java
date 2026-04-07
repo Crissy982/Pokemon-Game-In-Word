@@ -1,9 +1,9 @@
 package BattleEngine;
 
+import BattleEngine.Action.Action;
 import Entity.Move.Move;
 import Entity.Pokemon;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -24,10 +24,11 @@ public class Battle {
         this.opponentSide = opponentSide;
         this.field = field;
         this.weather = weather;
-        this.actionQueue = new PriorityQueue<Action>(
+        this.actionQueue = new PriorityQueue<Action>(/**
                 new Comparator<Action>() {
                     @Override
                     public int compare(Action action1, Action action2) {
+
                         int priority1 = action1.getActMove().data.priority();
                         int priority2 = action2.getActMove().data.priority();
                         if (priority1 == priority2) {
@@ -36,8 +37,10 @@ public class Battle {
                             return speed2 - speed1;
                         }
                         return priority2 - priority1;
+
                     }
                 }
+                **/
         );
     }
 

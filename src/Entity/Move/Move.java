@@ -24,4 +24,6 @@ public class Move {
             throw new AssertionError();
         }
     }
+
+    public void applyMove(Pokemon targetPokemon){}
 }
