@@ -261,6 +261,9 @@ public class Pokemon implements Cloneable{
     public int getLevel(){return level;}
     public int getSpeed(){return speed;}
     public Map<String, StatChange> getStatChanges(){return statChanges;}
+    public Player getOwner() {
+        return owner;
+    }
 
     /**
      * Calculate every Statistic and assign it to data field

@@ -5,14 +5,14 @@ import Entity.Player;
 import Entity.Pokemon;
 
 public class Switch extends Action {
-    private final Player actPlayer;
-    private static final int SWITCH_PRIORITY = 6;
+
     private final int switchID;
-    public Switch(Side actSide, Player actPlayer, Pokemon activePokemon, int swtichID) {
+    private final Player actPlayer;
+    public Switch(Side actSide, Pokemon activePokemon, int swtichID) {
         super(actSide, activePokemon);
-        this.actPlayer = actPlayer;
         this.switchID = swtichID;
         this.priority = SWITCH_PRIORITY;
+        this.actPlayer = actPokemon.getOwner();
     }
 
     @Override
@@ -22,7 +22,4 @@ public class Switch extends Action {
         actSide.getActivePokemons().add(actPlayer.getActivePokemon());
     }
 
-    public Player getActPlayer() {
-        return actPlayer;
-    }
 }

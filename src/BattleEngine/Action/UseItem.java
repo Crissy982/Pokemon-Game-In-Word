@@ -8,14 +8,13 @@ import Entity.Pokemon;
 public class UseItem extends Action {
     private final Item actItem;
     private final Player actPlayer;
-
     public UseItem(Item actItem,
-                   Player actPlayer,
                    Pokemon actPokemon,
                    Side actSide) {
         super(actSide, actPokemon);
         this.actItem = actItem;
-        this.actPlayer = actPlayer;
+        this.actPlayer = actPokemon.getOwner();
+        this.priority = USE_ITEM_PRIORITY;
     }
 
     @Override

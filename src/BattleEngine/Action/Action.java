@@ -1,10 +1,12 @@
 package BattleEngine.Action;
 
 import BattleEngine.Side;
-import Entity.Player;
 import Entity.Pokemon;
 
 public abstract class Action {
+    protected static final int ESCAPE_PRIORITY = 10;
+    protected static final int SWITCH_PRIORITY = 9;
+    protected static final int USE_ITEM_PRIORITY = 8;
     protected final Pokemon actPokemon;
     protected final Side actSide;
     protected int priority = 0;
@@ -20,6 +22,14 @@ public abstract class Action {
 
     public Side getActSide() {
         return actSide;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public abstract void act();
