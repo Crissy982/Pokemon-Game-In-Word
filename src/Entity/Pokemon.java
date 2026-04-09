@@ -38,7 +38,7 @@ public class Pokemon implements Cloneable{
     private int[] iv = new int[6];
     private Item itemNow;
     // List of moves the Pokemon currently can use (max 4)
-    private List<Move> moveListNow = new ArrayList<Move>(4);
+    private Map<Integer, Move> moveMapNow = new HashMap<>(4);
     // List of moves that are available for the Pokemon (no max or min)
     private Set<Move> moveListAvailable = new HashSet<Move>();
     private List<Move> moveListLearn;
@@ -148,9 +148,7 @@ public class Pokemon implements Cloneable{
             Pokemon copy = (Pokemon) super.clone();
             copy.ev = Arrays.copyOf(this.ev, this.ev.length);
             copy.iv = Arrays.copyOf(this.iv, this.iv.length);
-            copy.moveListNow = this.moveListNow.stream()
-                    .map(Move::clone)
-                    .collect(Collectors.toCollection(ArrayList::new));
+            copy.moveMapNow = this.moveMapNow;
             copy.moveListAvailable = this.moveListAvailable;
             copy.status = this.status;
             copy.itemNow = this.itemNow != null ? this.itemNow.clone() : null;
@@ -178,7 +176,7 @@ public class Pokemon implements Cloneable{
         this.ev = other.ev;
         this.iv = other.iv;
         this.itemNow = other.itemNow;
-        this.moveListNow = other.moveListNow;
+        this.moveMapNow = other.moveMapNow;
         this.moveListAvailable = other.moveListAvailable;
         this.status = other.status;
         this.expNow = other.expNow;
@@ -192,6 +190,7 @@ public class Pokemon implements Cloneable{
         this.speed = other.speed;
         this.ability = other.ability;
     }
+
 
     /**
      * Set iv[] to initial random value (0~31) for each stat.
@@ -263,6 +262,10 @@ public class Pokemon implements Cloneable{
     public Map<String, StatChange> getStatChanges(){return statChanges;}
     public Player getOwner() {
         return owner;
+    }
+
+    public Map<Integer, Move> getmoveMapNow() {
+        return moveMapNow;
     }
 
     /**

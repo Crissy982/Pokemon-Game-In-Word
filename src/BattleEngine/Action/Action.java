@@ -33,4 +33,8 @@ public abstract class Action {
     }
 
     public abstract void act();
+
+    public int getRandomTier() {
+        return actSide.randomTier;
+    }
 }
