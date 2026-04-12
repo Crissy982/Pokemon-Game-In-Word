@@ -76,10 +76,10 @@ public abstract class Player {
                 Pokemon targetPokemon;
                 do {
                     choiceTarget = scanner.nextInt();
-                    targetPokemon = battle.getOpponentSide()
-                            .getActivePokemons()
-                            .get(choiceTarget - 1);
-                } while (targetPokemon == null);
+                } while (choiceTarget <= 0 || choiceTarget - 1 >= battle.getOpponentSide().getActivePokemons().size());
+                targetPokemon = battle.getOpponentSide()
+                        .getActivePokemons()
+                        .get(choiceTarget - 1);
 
                 Side currentSide = battle.getPlayerSide()
                         .getActivePokemons()
@@ -90,12 +90,10 @@ public abstract class Player {
 
             case Switch:
                 int choiceSwitch;
-                Pokemon pokemonSwitch;
                 do {
                     choiceSwitch = scanner.nextInt();
                 } while (choiceSwitch < 0 || choiceSwitch > team.size() - 1);
                 switchPokemon(choiceSwitch);
-
                 currentSide = battle.getPlayerSide()
                         .getActivePokemons()
                         .contains(activePokemon)
@@ -117,11 +115,15 @@ public abstract class Player {
                 return new UseItem(itemUse, activePokemon, currentSide);
 
             case Escape:
+                // TODO: Refactor Side and Pokemon in battles
+                if(battle.getPlayerSide().getActivePokemons().contains(activePokemon)){
+                    return new Escape(battle.getPlayerSide(), activePokemon);
+                } else {
+                    return new Escape(battle.getOpponentSide(), activePokemon);
+                }
 
             default:
-                chooseAction(actionMap, battle);
-                break;
+                return chooseAction(actionMap, battle);
         }
-        return null;
     }
 }

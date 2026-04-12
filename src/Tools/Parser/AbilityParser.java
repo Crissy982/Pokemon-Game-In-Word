@@ -14,10 +14,10 @@ public class AbilityParser {
     private static final int RETRY_TIME = 3;
     private static final String CLIENT_ERROR_MSG = "CLIENT ERROR";
     //Get all information of all possible abilities for a pokemon species
-    public static ArrayList<Ability> getPokemonAbilities (String url)
+    public static ArrayList<AbilityData> getPokemonAbilities (String url)
             throws IOException, InterruptedException {
         HttpResponse<String> httpResponse = APILoader.loadAPI(url);
-        ArrayList<Ability> abilityList = new ArrayList<>();
+        ArrayList<AbilityData> abilityList = new ArrayList<>();
         JSONObject root = new JSONObject(httpResponse.body());
         JSONArray abilities = root.getJSONArray("abilities");
         for (int i = 0; i < abilities.length(); i++) {
@@ -29,14 +29,17 @@ public class AbilityParser {
         return abilityList;
     }
 
-    public static List<Ability> getAllAbility() {
-        List<Ability> allAbility = new ArrayList<>();
+    public static List<AbilityData> getAllAbility() {
+        List<AbilityData> allAbility = new ArrayList<>();
+        // System.out.print("Step 1 run\n");
         for (int i = 1; ;i++) {
+            // System.out.print("Step 2 run\n");
             try {
-                Ability ability = getSingleAbility("https://pokeapi.co/api/v2/ability/" + i);
-                if (ability == null)
+                AbilityData abilityData = getSingleAbility("https://pokeapi.co/api/v2/ability/" + i);
+                // System.out.print("Step 3 run\n");
+                if (abilityData == null)
                     break;
-                allAbility.add(ability);
+                allAbility.add(abilityData);
             }
             catch (IOException e) {
                 continue;
@@ -46,7 +49,8 @@ public class AbilityParser {
     }
 
     // Get all information of an ability
-    public static Ability getSingleAbility(String url) throws IOException {
+    public static AbilityData getSingleAbility(String url) throws IOException {
+        System.out.println("request: " + url);
         int retry = RETRY_TIME;
         // Load API and assign the return to httpResponse
         while (retry-- > 0) {
@@ -81,7 +85,7 @@ public class AbilityParser {
         throw new IOException("FAILED TO FETCH ABILITY AFTER RETRIES");
     }
 
-    private static Ability abilityParser
+    private static AbilityData abilityParser
             (HttpResponse<String> httpResponse) {
         // Declare a new JSONObject with httpResponse.body() as input
         JSONObject root = new JSONObject(httpResponse.body());
@@ -98,7 +102,7 @@ public class AbilityParser {
                 shortEffect,
                 description,
                 effect);
-        return new Ability(data);
+        return data;
     }
 
     // Get String information of effects of an ability
@@ -136,7 +140,9 @@ public class AbilityParser {
     // Test the AbilityParser.class and all its methods
     public static void main(String[] args)
             throws IOException, InterruptedException {
-        ArrayList<Ability> list =
-                getPokemonAbilities("https://pokeapi.co/api/v2/pokemon/1");
+        List<AbilityData> list = getAllAbility();
+        for (int i = 0; i < list.size() - 1; i++) {
+            System.out.print(list.get(i) + "\n");
+        }
     }
 }

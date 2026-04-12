@@ -13,16 +13,17 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoveParser {
 
     // Get all Moves available to a pokemon species
-    public static ArrayList<Move> movesParser(String url)
+    public static List<Move> movesParser(String url)
             throws InterruptedException, IOException {
         HttpResponse<String> httpResponse = APILoader.loadAPI(url);
         JSONObject root = new JSONObject(httpResponse.body());
         JSONArray movesArr = root.getJSONArray("moves");
-        ArrayList<Move> moveAvailableList = new ArrayList<>();
+        List<Move> moveAvailableList = new ArrayList<>();
         for (int i = 0; i < movesArr.length(); i ++) {
             JSONObject moveObj = movesArr.getJSONObject(i);
             moveAvailableList.add(moveParser(moveObj.getString("url")));

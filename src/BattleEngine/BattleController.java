@@ -60,12 +60,22 @@ public class BattleController {
         List<Pokemon> listPlayerSide = battle.getPlayerSide().getActivePokemons();
         for (Pokemon pokemon : listPlayerSide) {
             Action action = pokemon.getOwner().chooseAction(choiceMap, battle);
+            actionQueue.add(action);
         }
 
-        if (battle.isEnd()) {
-            endBattle();
+        while (!actionQueue.isEmpty()) {
+            actionQueue.poll().act();
+            // TODO: Renew listPlayerSide after each action,
+            // if isFainted, force the owner to switch;
+            if (battle.isEnd()) {
+                endBattle();
+                return;
+            }
         }
+        turn++;
+        run();
     }
+
     private static boolean isHit(Pokemon actor, Move move, Pokemon target) {
         if (move.data.accuracy() == null)
             return true;
