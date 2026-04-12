@@ -29,7 +29,9 @@ public abstract class Player {
     }
 
     public void switchPokemon(int teamIndex) {
+        Pokemon pokemonTemp = activePokemon;
         activePokemon = team.get(teamIndex);
+        team.add(teamIndex, pokemonTemp);
     }
 
     public void sendPokemon(Pokemon opponent, Field field, Weather weather) {
@@ -62,18 +64,63 @@ public abstract class Player {
         int choice = scanner.nextInt();
         switch (actionMap.get(choice)) {
             case UseMove:
-                int choiceMove = scanner.nextInt();
-                Move move = activePokemon.getmoveMapNow().get(choiceMove);
+                int choiceMove;
+                Move move ;
+                // Check if the move is null
+                do {
+                    choiceMove = scanner.nextInt();
+                    move = activePokemon.getmoveMapNow().get(choiceMove);
+                } while (move == null);
                 //TODO: Judge the move target type
-                int choiceTarget = scanner.nextInt();
-                Pokemon targetPokemon = battle.getOpponentSide()
-                        .getActivePokemons()
-                        .get(choiceTarget - 1);
+                int choiceTarget;
+                Pokemon targetPokemon;
+                do {
+                    choiceTarget = scanner.nextInt();
+                    targetPokemon = battle.getOpponentSide()
+                            .getActivePokemons()
+                            .get(choiceTarget - 1);
+                } while (targetPokemon == null);
+
                 Side currentSide = battle.getPlayerSide()
                         .getActivePokemons()
                         .contains(activePokemon)
                         ? battle.getPlayerSide() : battle.getOpponentSide();
+
                 return new UseMove(currentSide,activePokemon,move,targetPokemon);
+
+            case Switch:
+                int choiceSwitch;
+                Pokemon pokemonSwitch;
+                do {
+                    choiceSwitch = scanner.nextInt();
+                } while (choiceSwitch < 0 || choiceSwitch > team.size() - 1);
+                switchPokemon(choiceSwitch);
+
+                currentSide = battle.getPlayerSide()
+                        .getActivePokemons()
+                        .contains(activePokemon)
+                        ? battle.getPlayerSide() : battle.getOpponentSide();
+
+                return new Switch(currentSide, activePokemon, choiceSwitch);
+
+            case UseItem:
+                int choiceItem;
+                Item itemUse;
+                currentSide = battle.getPlayerSide()
+                        .getActivePokemons()
+                        .contains(activePokemon)
+                        ? battle.getPlayerSide() : battle.getOpponentSide();
+                do {
+                    choiceItem = scanner.nextInt();
+                } while (choiceItem < 0 || choiceItem > bag.getCountItem() - 1);
+                itemUse = bag.getItem(choiceItem);
+                return new UseItem(itemUse, activePokemon, currentSide);
+
+            case Escape:
+
+            default:
+                chooseAction(actionMap, battle);
+                break;
         }
         return null;
     }
