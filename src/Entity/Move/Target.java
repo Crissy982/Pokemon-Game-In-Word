@@ -4,7 +4,7 @@ public enum Target {
     SPECIFIC_MOVE,
     SELECTED_POKEMON_ME_FIRST,
     ALLY,
-    USER_FIELD,
+    USERS_FIELD,
     USER_OR_ALLY,
     OPPONENTS_FIELD,
     USER,
@@ -16,5 +16,5 @@ public enum Target {
     USER_AND_ALLIES,
     ALL_POKEMON,
     ALL_ALLIES,
-    FAINTING
+    FAINTING_POKEMON
 }

@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class TypeParser {
-    public static ArrayList<Type> typesParser
+    public static ArrayList<Type> pokemonTypesParser
             (HttpResponse<String> httpResponse) {
         ArrayList<Type> typeList = new ArrayList<Type>();
         JSONObject root = new JSONObject(httpResponse.body());
@@ -31,7 +31,7 @@ public class TypeParser {
 
     public static void main(String[] args)
             throws InterruptedException, IOException {
-        ArrayList<Type> typeList = typesParser(APILoader.loadAPI
+        ArrayList<Type> typeList = pokemonTypesParser(APILoader.loadAPI
                 ("https://pokeapi.co/api/v2/pokemon/1"));
         for (Type type : typeList)
             System.out.print(type.toString() + "\n");

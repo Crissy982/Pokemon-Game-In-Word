@@ -26,4 +26,8 @@ public class Move {
     }
 
     public void applyMove(Pokemon targetPokemon){}
+
+    public static void main(String[] args) {
+
+    }
 }

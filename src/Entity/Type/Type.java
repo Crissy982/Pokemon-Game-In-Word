@@ -55,7 +55,7 @@ public enum Type {
     // and all its methods.
     public static void main(String[] args)
             throws IOException, InterruptedException {
-        ArrayList<Type> typeList = TypeParser.typesParser(APILoader.loadAPI
+        ArrayList<Type> typeList = TypeParser.pokemonTypesParser(APILoader.loadAPI
                 ("https://pokeapi.co/api/v2/pokemon/1"));
         System.out.print(Type.WATER.getEffectiveness(typeList.get(0)) + "\n");
         System.out.println(Type.WATER.getEffectiveness(typeList.get(0), typeList.get(1)));
