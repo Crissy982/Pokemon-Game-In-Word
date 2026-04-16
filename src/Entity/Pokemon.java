@@ -18,26 +18,38 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Pokemon implements Cloneable{
+    // TODO: Refactor Pokemon class to separate State, Combat Kit, and Context
     // Global Variables
-    // Pokemon species data of this Pokemon
+    // ===Basic Data===
     public SpeciesData data;
     private String nickname;
     private int maxHP;
-    private int currentHP;
     private int attack;
     private int defense;
     private int SA;
     private int SD;
     private int speed;
+    private Nature nature;
+    private int[] iv = new int[6];
+
+    // ===Progression Data===
     private int level;
     private int expNow;
     private int expNeed;
-    private Nature nature;
-    private OwnerType ownerType = OwnerType.WILD;
     private int[] ev = new int[6];
-    private int[] iv = new int[6];
+    // As some Pokemons may evolve based on their friendness
+    private int friendness;
+    private int lastProcessedLevel = 1;
+
+    // ===Context===
+    private OwnerType ownerType = OwnerType.WILD;
+    private Player owner;
+
+
+    // ===Combat Kit===
     private Item itemNow;
-    // List of moves the Pokemon currently can use (max 4)
+    private int currentHP;
+    // Map of moves the Pokemon currently can use (max 4)
     private Map<Integer, Move> moveMapNow = new HashMap<>(4);
     // List of moves that are available for the Pokemon (no max or min)
     private Set<Move> moveListAvailable = new HashSet<Move>();
@@ -46,15 +58,12 @@ public class Pokemon implements Cloneable{
     private Status status;
     private Ability ability;
     private int slot;
-    private Player owner;
-    // As some Pokemons may evolve based on their friendness
-    private int friendness;
-    private int lastProcessedLevel = 1;
+    // TODO: Refactor statChanges
     private Map<String, StatChange> statChanges;
 
     // Constants
     private static final Random random = new Random();
-    /**
+    /*
      * Index for each stat out of a battle
      * 0 for Health Point
      * 1 for Attack
@@ -71,7 +80,6 @@ public class Pokemon implements Cloneable{
     private static final int INDEX_SPEED = 5;
 
     // Default Constructor
-
     /**
      * Create a Pokemon with　given species data and level
      * (Mostly WILD Pokemon).

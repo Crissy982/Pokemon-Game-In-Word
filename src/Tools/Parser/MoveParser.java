@@ -17,11 +17,22 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is to parser JSON texts from the Poke API and return it as
+ * MoveData objects. It will use API loader to load Poke API for data.
+ */
 public class MoveParser {
     private  static final int RETRY_TIME = 3;
     private static final String CLIENT_ERROR_MSG = "CLIENT ERROR";
 
-    // Get all Moves available to a pokemon species
+    /**
+     * Get all Moves available to a pokemon species with a url to the species
+     *
+     * @param url the url to specific data in the Poke API
+     * @return A list of all moves for a pokemon species
+     * @throws InterruptedException when the request to Poke API is interrupted
+     * @throws IOException when the loader or parser cannot find Input/Output
+     */
     public static List<MoveData> pokemonMovesParser(String url)
             throws InterruptedException, IOException {
         HttpResponse<String> httpResponse = APILoader.loadAPI(url);
@@ -35,7 +46,17 @@ public class MoveParser {
         return moveAvailableList;
     }
 
-    // Get information of a single Move
+    /**
+     * Parse the data for a single move. If the http response status code is
+     * 200, it succeeds; otherwise, http request comes into error.
+     * Retry forseveral times.
+     * If it still doesn't work, it will throw IOException depends on
+     * the situation
+     *
+     * @param url the url for the specific move
+     * @return MoveData the data for the specific move
+     * @throws IOException when the Parser cannot work successfully
+     */
     public static MoveData moveParser(String url)
             throws IOException {
         int retry = RETRY_TIME;
@@ -77,6 +98,7 @@ public class MoveParser {
 
     }
 
+    // TODO: Refactor getMoveData() method
     public static MoveData getMoveData(HttpResponse<String> httpResponse) {
         JSONObject root = new JSONObject(httpResponse.body());
         System.out.print(root.optInt("accuracy") + "\n");
@@ -96,6 +118,7 @@ public class MoveParser {
                             .getString("flavor_text");
             }
         }
+        // Ensure the version of data are all "sword-shield"
         if (flavorText == null)
             return null;
         Integer accuracy = root.optInt("accuracy");
